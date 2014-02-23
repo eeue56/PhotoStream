@@ -71,8 +71,6 @@ void RoiSelector::main_loop() {
         }
     }
 
-    destroyAllWindows();
-
 }
 
 Rect roi_as_rect(roi_values roi){

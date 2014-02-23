@@ -7,6 +7,8 @@
 #include <opencv/highgui.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/features2d/features2d.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 #define MAX_THRESHOLD 255
 #define MIN_THRESHOLD 0
@@ -26,6 +28,21 @@ bool is_numerical(char * data){
 int main(int argc, char * argv[]){
     const string window_name = "main";
     const string results_window_name = "results";
+
+    const string detector_types[] =
+    {
+        "FAST",
+        "STAR",
+        "SIFT",
+        "SURF",
+        "ORB",
+        "BRISK",
+        "MSER",
+        "GFTT",
+        "HARRIS",
+        "Dense",
+        "SimpleBlob"
+    };
     const int exit_key = 27;
     const int pause_key = 32;
 
@@ -34,8 +51,8 @@ int main(int argc, char * argv[]){
     Mat image;
     Mat roied_image;
     RoiSelector* selector;
-
-    std::cout << "here" << std::endl;
+    FeatureDetector* detector;
+    vector<KeyPoint> key_points;
 
     if (argc < 2){
         std::cout << "Not enough arguments" << std::endl;
@@ -74,10 +91,20 @@ int main(int argc, char * argv[]){
 
     roied_image = image(roi_as_rect(roi));
 
+    std::cout << "Creating detector" << std::endl;
+    detector = FeatureDetector::create(detector_types[0]);
+
+    std::cout << "Detecting keypoints" << std::endl;
+    detector->detect(roied_image, key_points);
+
+    std::cout << key_points.size() << std::endl;
+
 
     namedWindow(window_name, CV_WINDOW_NORMAL);
     imshow(window_name, roied_image);
 
+    waitKey(0);
+    waitKey(0);
     waitKey(0);
 
     return 0;
