@@ -74,5 +74,20 @@ void RoiSelector::main_loop() {
 }
 
 Rect roi_as_rect(roi_values roi){
-    return Rect(roi.left_x, roi.left_y, roi.right_x - roi.left_x, roi.right_y - roi.left_y);
+    int x = roi.left_x;
+    int y = roi.left_y;
+    int width = roi.right_x - x;
+    int height = roi.right_y - y;
+
+    if (roi.left_x > roi.right_x){
+        x = roi.right_x;
+        width = roi.left_x - x;
+    }
+
+    if (roi.left_y > roi.right_y){
+        y = roi.right_y;
+        height = roi.left_y - y;
+    }
+
+    return Rect(x, y, width, height);
 }
