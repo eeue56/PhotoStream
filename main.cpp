@@ -52,7 +52,7 @@ int main(int argc, char * argv[]){
     Mat roied_image;
     RoiSelector* selector;
     FeatureDetector* detector;
-    vector<KeyPoint> key_points;
+    cv::vector<KeyPoint> key_points;
 
     if (argc < 2){
         std::cout << "Not enough arguments" << std::endl;
@@ -97,6 +97,7 @@ int main(int argc, char * argv[]){
     std::cout << "Detecting keypoints" << std::endl;
     detector->detect(roied_image, key_points);
 
+    std::cout << "Finished detecting" << std::endl;
     std::cout << key_points.size() << std::endl;
 
 
