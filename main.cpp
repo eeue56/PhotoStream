@@ -108,7 +108,10 @@ int main(int argc, char * argv[]){
     while (true){
         imshow(window_name, roied_image);
 
-        waitKey(1);
+
+        waitKey(0);
+
+        std::cout << "Hello: " << detector_types[selected_type] << std::endl;
     }
 
     return 0;
