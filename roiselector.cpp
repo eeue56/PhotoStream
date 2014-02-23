@@ -71,6 +71,8 @@ void RoiSelector::main_loop() {
         }
     }
 
+    destroyWindow(this->window_name);
+    this->image.release();
 }
 
 Rect roi_as_rect(roi_values roi){

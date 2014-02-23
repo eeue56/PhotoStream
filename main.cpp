@@ -10,11 +10,29 @@
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#define MAX_THRESHOLD 255
-#define MIN_THRESHOLD 0
-
 using namespace cv;
 
+#define detector_count 10
+
+const string window_name = "main";
+const string results_window_name = "results";
+
+const string detector_types[] =
+{
+    "FAST",
+    "STAR",
+    "SIFT",
+    "SURF",
+    "ORB",
+    "BRISK",
+    "MSER",
+    "GFTT",
+    "HARRIS",
+    "Dense",
+    "SimpleBlob"
+};
+const int exit_key = 27;
+const int pause_key = 32;
 
 
 bool is_numerical(char * data){
@@ -25,29 +43,12 @@ bool is_numerical(char * data){
 }
 
 
+
+
 int main(int argc, char * argv[]){
-    const string window_name = "main";
-    const string results_window_name = "results";
-
-    const string detector_types[] =
-    {
-        "FAST",
-        "STAR",
-        "SIFT",
-        "SURF",
-        "ORB",
-        "BRISK",
-        "MSER",
-        "GFTT",
-        "HARRIS",
-        "Dense",
-        "SimpleBlob"
-    };
-    const int exit_key = 27;
-    const int pause_key = 32;
-
     roi_values roi;
     int image_index = 1;
+    int selected_type = 1;
     Mat image;
     Mat roied_image;
     RoiSelector* selector;
@@ -95,18 +96,20 @@ int main(int argc, char * argv[]){
     detector = FeatureDetector::create(detector_types[0]);
 
     std::cout << "Detecting keypoints" << std::endl;
-    detector->detect(roied_image, key_points);
+    //detector->detect(roied_image, key_points);
 
     std::cout << "Finished detecting" << std::endl;
-    std::cout << key_points.size() << std::endl;
+    //std::cout << key_points.size() << std::endl;
 
 
     namedWindow(window_name, CV_WINDOW_NORMAL);
-    imshow(window_name, roied_image);
+    createTrackbar("Descriptor type", window_name, &selected_type, detector_count);
 
-    waitKey(0);
-    waitKey(0);
-    waitKey(0);
+    while (true){
+        imshow(window_name, roied_image);
+
+        waitKey(1);
+    }
 
     return 0;
 
